@@ -1,0 +1,11 @@
+{
+  "name": "fotorol",
+  "version": "0.0.1",
+  "description": "An Exchange-a-gram clone written in Express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Steve Godin",
+  "license": "ISC"
+}
