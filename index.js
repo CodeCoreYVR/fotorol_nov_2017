@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
 // When we require `express`, we get function that we can call
 // to create an "instance of" `express` app. We will use methods
@@ -12,6 +13,11 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.use(morgan('dev'));
+// bodyParser.urlencoded middleware will allow our application to parse
+// data coming from an HTML form into a JavaScript object that will
+// be available as a property of the request object. That property is named
+// `body`, `request.body`.
+app.use(bodyParser.urlencoded({extended: false}));
 
 /*
 app.use((request, response, next) => {
@@ -48,6 +54,22 @@ app.get('/home', (request, response) => {
   // beginning from the `/views` subdirectory without the
   // file extension (i.e. no `.ejs`).
   response.render('home');
+});
+
+app.get('/contact_us', (request, response) => {
+  response.render('contactUs');
+});
+
+app.post('/contact_us', (request, response) => {
+  const body = request.body;
+  const fullName = body.fullName;
+  const message = body.message;
+  // response.send(body);
+
+  // `response.render` can take an object as a second argument.
+  // All properties of this object will act as local variables inside
+  // of the template being rendered.
+  response.render('thankYou', {fullName: fullName, message: message});
 });
 
 const DOMAIN = 'localhost';
