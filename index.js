@@ -1,11 +1,14 @@
 const express = require('express');
+const morgan = require('morgan');
 
 // When we require `express`, we get function that we can call
 // to create an "instance of" `express` app. We will use methods
 // of the app object to build our web server.
 const app = express();
 
+app.use(morgan('dev'));
 
+/*
 app.use((request, response, next) => {
   console.log(`${request.method} - ${request.path} - ${new Date().toString()}`);
   // The `next` argument is a function that when called tells express
@@ -14,6 +17,7 @@ app.use((request, response, next) => {
   // to load forever while it waits for a response.
   next();
 });
+*/
 
 // The `request` represents a HTTP request. It contains
 // information about the request including the verb, the headers
