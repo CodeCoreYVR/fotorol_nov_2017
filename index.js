@@ -6,6 +6,11 @@ const morgan = require('morgan');
 // of the app object to build our web server.
 const app = express();
 
+// 👇 Configures our application to use `ejs` as the templating engine
+// to render our applications HTML pages. The package, ejs, must still
+// be installed with npm for this to work.
+app.set('view engine', 'ejs');
+
 app.use(morgan('dev'));
 
 /*
@@ -28,9 +33,21 @@ app.use((request, response, next) => {
 // that contains a header & a body of data that our application
 // will built to reply to the client's `request`.
 app.get('/home', (request, response) => {
+  /*
   response.send(`
     Convergence user centered design disrupt pitch.
   `);
+  */
+
+  // `response.render` is used instead of `response.send`
+  // to serve the contents of a template in a response.
+  // It finalizes the response.
+
+  // The first argument to `response.render` is the file path
+  // (not the URL path) to the template we want to render
+  // beginning from the `/views` subdirectory without the
+  // file extension (i.e. no `.ejs`).
+  response.render('home');
 });
 
 const DOMAIN = 'localhost';
