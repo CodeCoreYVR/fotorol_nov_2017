@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "db:create": "createdb --echo fotorol_dev",
+    "db:drop": "dropdb --echo --if-exists fotorol_dev"
   },
   "author": "Steve Godin",
   "license": "ISC",
