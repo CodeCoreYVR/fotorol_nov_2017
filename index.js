@@ -72,6 +72,11 @@ app.post('/contact_us', (request, response) => {
   response.render('thankYou', {fullName: fullName, message: message});
 });
 
+const postsRouter = require('./routes/posts');
+app.use('/posts', postsRouter);
+// This means that all url paths to routes inside of
+// the posts router must begin with '/posts'
+
 const DOMAIN = 'localhost';
 const PORT = '3002';
 app.listen(PORT, DOMAIN, () => {
