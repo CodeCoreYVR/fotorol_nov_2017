@@ -7,7 +7,8 @@ const knex = require('../db'); // In node if you require
 // filname, 'index', from the require.
 // const knex = require('../db/index');
 
-const upload = multer({dest: path.join(__dirname, '..', 'public', 'uploads')});
+const UPLOADS_DIR = 'uploads';
+const upload = multer({dest: path.join(__dirname, '..', 'public', UPLOADS_DIR)});
 
 // PATH: /posts/new VERB: GET Serves form for creating posts
 router.get('/new', (request, response) => {
@@ -18,9 +19,11 @@ router.get('/new', (request, response) => {
 router.post('/', upload.single('picture'), (request, response) => {
   const username = request.body.username;
   const content = request.body.content;
+  const filename = request.file.filename;
+  const picture_path = path.join(UPLOADS_DIR, filename);
 
   knex
-    .insert({username: username, content: content})
+    .insert({username: username, content: content, picture_path: picture_path})
     .into('posts')
     .returning('id')
     .then(result => response.redirect('/posts'))
