@@ -2,8 +2,22 @@
 
 <form
   action="/posts"
-  method='POST'
+  method="POST"
+  enctype="multipart/form-data"
 >
+  <div class="form-group">
+    <input
+      class="form-control"
+      type="file"
+      name="picture"
+      value=""
+    >
+  </div>
+  <!--
+  Example of urlencoded data:
+
+  username=steve&content=this+is+my+content
+  -->
   <div class="form-group">
     <input
       class="form-control"

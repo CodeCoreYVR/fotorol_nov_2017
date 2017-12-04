@@ -1,3 +1,5 @@
+const path = require('path');
+const multer = require('multer');
 const express = require('express');
 const router = express.Router();
 const knex = require('../db'); // In node if you require
@@ -5,13 +7,15 @@ const knex = require('../db'); // In node if you require
 // filname, 'index', from the require.
 // const knex = require('../db/index');
 
+const upload = multer({dest: path.join(__dirname, '..', 'public', 'uploads')});
+
 // PATH: /posts/new VERB: GET Serves form for creating posts
 router.get('/new', (request, response) => {
   response.render('posts/new');
 });
 
 // PATH: /posts VERB: POST Creating new posts
-router.post('/', (request, response) => {
+router.post('/', upload.single('picture'), (request, response) => {
   const username = request.body.username;
   const content = request.body.content;
 
