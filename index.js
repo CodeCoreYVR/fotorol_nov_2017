@@ -78,14 +78,24 @@ app.get('/home', (request, response) => {
 });
 
 app.get('/contact_us', (request, response) => {
-  response.render('contactUs');
+  // When using a form with the method="GET", its data will not be available
+  // in `request.body`. Instead, you will find all the data as a JavaScript
+  // object in `request.query`.
+
+  // Also, that data will appear in the url. This is query parameters.
+  const fullName = request.query.fullName;
+  const message = request.query.message;
+
+  if (fullName) {
+    response.locals.flash.push(`Thank for getting in touch, ${fullName}!`);
+  }
+  response.render('contactUs', {fullName: fullName, message: message});
 });
 
 app.post('/contact_us', (request, response) => {
   const body = request.body;
   const fullName = body.fullName;
   const message = body.message;
-  // response.send(body);
 
   // `response.render` can take an object as a second argument.
   // All properties of this object will act as local variables inside
