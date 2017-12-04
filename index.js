@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
@@ -13,6 +14,18 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.use(morgan('dev'));
+
+// To serve images, css, javascript, sounds & videos to a client (i.e. browser)
+// , you must make the files available with a Express' static middleware.
+// This will create URLs for all files inside a given directory.
+// (e.g
+// For a file public/css/index.css, the url would be http://localhost:3002/css/index.css
+// For public/cat_pic.jpeg, the url would be http://localhost:3002/cat_pic.jpeg
+// )
+
+// __dirname is a global variable in node that returns the full path
+// (beginning from /) to the file where it is written.
+app.use(express.static(path.join(__dirname, 'public')))
 // bodyParser.urlencoded middleware will allow our application to parse
 // data coming from an HTML form into a JavaScript object that will
 // be available as a property of the request object. That property is named
