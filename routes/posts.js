@@ -19,15 +19,23 @@ router.get('/new', (request, response) => {
 router.post('/', upload.single('picture'), (request, response) => {
   const username = request.body.username;
   const content = request.body.content;
-  const filename = request.file.filename;
-  const picture_path = path.join(UPLOADS_DIR, filename);
 
-  knex
+  // This if checks that each value exists. If any of them is undefined or something
+  // that is not truthy, it will go to the else block.
+  if (username && content && request.file) {
+    const filename = request.file.filename;
+    const picture_path = path.join(UPLOADS_DIR, filename);
+
+    knex
     .insert({username: username, content: content, picture_path: picture_path})
     .into('posts')
     .returning('id')
     .then(result => response.redirect('/posts'))
     .catch(error => response.send(error));
+  } else {
+    response.locals.flash.push('Username, content and picture are required!')
+    response.render('posts/new');
+  }
 });
 
 // PATH: /posts VERB: GET List all the posts

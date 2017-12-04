@@ -31,6 +31,14 @@ app.use(express.static(path.join(__dirname, 'public')))
 // be available as a property of the request object. That property is named
 // `body`, `request.body`.
 app.use(bodyParser.urlencoded({extended: false}));
+app.use((request, response, next) => {
+  // Because our header.ejs is using the global flash variable, we have
+  // make sure that's always defined even if a route doesn't make use of it.
+  if (!response.locals.flash) {
+    response.locals.flash = [];
+  }
+  next();
+});
 
 /*
 app.use((request, response, next) => {
